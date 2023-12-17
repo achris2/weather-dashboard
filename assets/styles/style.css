@@ -4,7 +4,6 @@
     align-items: center;
     background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border-bottom: 3px solid #6a6969;
-    margin-top: 0;
 }
 
 
@@ -12,11 +11,23 @@ h1 {
     color: white;
 }
 
+form {
+    padding: 25px;
+}
+
+input {
+    padding-bottom: 10px; 
+}
+
+
 #today {
-    background-color: red;
+    background-color: white;
+    border: 3px solid #6a6969;
+    padding: 25px; 
 }
 
 
 #forecast{
-    background-color: blue;
+    padding: 10px; 
+    border: 3px solid #6a6969;
 }
