@@ -14,18 +14,40 @@ $('#search-button').on('click', function(event){
     .then(function(response){
         return response.json();
     }) .then (function(data){
-        console.log(data);
-        console.log(data.list[0].dt);
-        
-        // timestamp in Unix 
-        let unixTime = data.list[0].dt);
-        // convert unix Time Stamp to Date 
+//         Call the API and render the result in the HTML 
+// //          Date, Temperature, Win 
+// //          - temperature
+// //          - wind speed
+// //          - humidity
+// //          - icon
+        console.log(data);        
 
-        
-        //  let temperature = data.response.docs[0]. 
-        //  let windSpeed = data.response.docs[0]. 
-        //  let humidity = data.response.docs[0]. 
-        //  let icon = data.response.docs[0]. ; 
+        // Date 
+        let currentTime = data.list[0].dt_txt;
+        console.log(currentTime);
+        // get timestamp in Unix, which is no of seconds since 1970
+        // Need to convert convert unix Time Stamp to Date 
+
+        let todayDiv = $('#today'); 
+        todayDiv.text(currentTime);
+        //  Temperature 
+        let temperature = data.list[0].main.temp;
+        todayDiv.append(temperature);
+
+
+        // Wind Speed 
+
+        let windSpeed = data.list[0].wind.speed;
+        console.log(windSpeed);
+
+        // Humidity 
+
+        let humidity = data.list[0].main.humidity;
+        console.log(humidity);
+
+        // Icon 
+        let icon = data.list[0].weather.icon;
+        console.log(icon);
     }) 
 
 })
@@ -33,8 +55,6 @@ $('#search-button').on('click', function(event){
 // get the user input value 
 
 // Build the API query based on the user input value 
-
-
 // Call the API and render the result in the HTML 
 //          - date 
 //          - temperature
@@ -48,4 +68,4 @@ $('#search-button').on('click', function(event){
 //      - wind speed
 //      - humidity 
 //      - icon 
-//  - render those values to the smaller card 
+// - render those values to the smaller card
