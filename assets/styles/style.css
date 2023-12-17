@@ -1,0 +1,22 @@
+#main-header {
+    padding: 5px;
+    justify-content: center;
+    align-items: center;
+    background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-bottom: 3px solid #6a6969;
+    margin-top: 0;
+}
+
+
+h1 {
+    color: white;
+}
+
+#today {
+    background-color: red;
+}
+
+
+#forecast{
+    background-color: blue;
+}

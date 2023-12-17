@@ -3,8 +3,6 @@
 $('#search-button').on('click', function(event){
     event.preventDefault();
     let chosenCity = $('#search-input').val();
-    console.log (chosenCity);
-
     let queryURL ="https://api.openweathermap.org/data/2.5/forecast?q=" + chosenCity + "&units=&appid=fa4695e0608a76d517ec72dbb80b9028&units=metric";
     console.log(queryURL);
 
@@ -23,17 +21,16 @@ $('#search-button').on('click', function(event){
         console.log(data);        
 
         // Date 
-        let currentTime = data.list[0].dt_txt;
-        console.log(currentTime);
         // get timestamp in Unix, which is no of seconds since 1970
         // Need to convert convert unix Time Stamp to Date 
+        let currentTime = new Date(data.list[0].dt*10000);
+        
+      
 
         let todayDiv = $('#today'); 
-        todayDiv.text(currentTime);
+
         //  Temperature 
         let temperature = data.list[0].main.temp;
-        todayDiv.append(temperature);
-
 
         // Wind Speed 
 
@@ -48,6 +45,11 @@ $('#search-button').on('click', function(event){
         // Icon 
         let icon = data.list[0].weather.icon;
         console.log(icon);
+
+
+        todayDiv.append(`<p>Date: ${currentTime}</p>`);
+        todayDiv.append(currentTime, temperature, windSpeed,humidity,icon);
+
     }) 
 
 })
