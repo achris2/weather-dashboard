@@ -1,13 +1,44 @@
-// Load search history from localStorage on page load
-$(document).ready(function () {
-    loadSearchHistory();
-});
+// NEXT STEPS: 
 
-// add event listener to form submit 
+// 2. When user search for a city, store it in local storage
+// initialise local storage, load it on refresh 
+
+// 3. On initial page load load the search history and show it as a list in the HTML
+//    - Build the API query URL based on the history stored in local storage
+//    - Call the API and render the result in the HTML
+
+// 4. When user click on the search history, call weather API and show the result in the HTML
+
+// 5. CSS
+
+
+
+// selectors of the history div, forecast div & main div
+let todayDiv = $('#today-div'); 
+let historyDiv = $('#history');
+let forecastCards = $('#forecast-cards'); 
+
+
+// // initialise local storage variable
+
+let cityHistory = [];
+
+
+// add event listener to search button 
 
 $('#search-button').on('click', function(event){
     event.preventDefault();
+
     let chosenCity = $('#search-input').val();
+
+
+    
+//  chosen city to history storage variable
+    cityHistory.push(chosenCity);
+
+// store updated city history in local storage 
+    localStorage.setItem('cityHistory', JSON.stringify(cityHistory));
+
     let queryURL ="https://api.openweathermap.org/data/2.5/forecast?q=" + chosenCity + "&units=&appid=fa4695e0608a76d517ec72dbb80b9028";
     console.log(queryURL);
 
@@ -35,9 +66,19 @@ $('#search-button').on('click', function(event){
         todayDiv.empty();
         forecastCards.empty();
 
-        // add to City to Search History Button
 
-        historyDiv.append(`<button type="button" class="btn btn-secondary"> ${chosenCity} </button>`) 
+        // retrieve city history from Local Storage 
+
+        cityHistory = JSON.parse(localStorage.getItem('cityHistory')) || [];
+
+        // emtpy History Div 
+
+        historyDiv.empty();
+
+        // Display Search History from Local Storage
+        for (let i=0; i < cityHistory.length; i++){
+            historyDiv.append(`<li class="list-group-item"><button type="button" class="btn btn-secondary" id="${cityHistory[i]}-button"> ${cityHistory[i]} </button></li>`) 
+        }
 
         // Date 
         // get timestamp in Unix, which is no of seconds since 1970
@@ -105,16 +146,14 @@ $('#search-button').on('click', function(event){
 
         }
 
+        //
+
 
         
 
     }) 
 
 })
-
-
-
-
 
 
 // get the user input value 
