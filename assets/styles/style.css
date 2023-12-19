@@ -9,17 +9,15 @@
 }
 
 aside {
-    margin: 5px;
-    padding: 5px;
     border-right: 1px solid #ccc; 
 }
 
 #today, #forecast{
     background-color: white;
     border: 0px solid #6a6969;
-    padding: 5px;
+    padding: 2px;
     border: 2px solid #6a6969;
-    margin: 10px;
+    margin: 2px;
 
 }
 
