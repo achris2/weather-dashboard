@@ -1,18 +1,3 @@
-// NEXT STEPS: 
-
-// 2. When user search for a city, store it in local storage
-// initialise local storage, load it on refresh 
-
-// 3. On initial page load load the search history and show it as a list in the HTML
-//    - Build the API query URL based on the history stored in local storage
-//    - Call the API and render the result in the HTML
-
-// 4. When user click on the search history, call weather API and show the result in the HTML
-
-// 5. CSS
-
-
-
 // selectors of the history div, forecast div & main div
 let todayDiv = $('#today-div'); 
 let historyDiv = $('#history');
@@ -23,24 +8,72 @@ let forecastCards = $('#forecast-cards');
 
 let cityHistory = [];
 
+// 
+
+$(document).ready(function () {
+    // Load city history from local storage
+    cityHistory = JSON.parse(localStorage.getItem('cityHistory')) || [];
+
+    // Display the city history on the webpage
+    displayCityHistory();
+
+    // add event listener to clear history button
+    $('#clear-history-button').on('click', function () {
+        clearSearchHistory();
+    });
+});
+
+// clear search history function 
+
+function clearSearchHistory() {
+    // clear the search history in local storage
+    localStorage.removeItem('cityHistory');
+
+    // clear the search history in the UI
+    cityHistory = [];
+    historyDiv.empty();
+}
 
 // add event listener to search button 
 
-$('#search-button').on('click', function(event){
+$('#search-button').on('click', function (event) {
     event.preventDefault();
-
     let chosenCity = $('#search-input').val();
+    searchWeather(chosenCity);
+});
+
+// add event listener to history buttons 
+
+$('#history').on('click', 'button', function () {
+    let chosenCity = $(this).text();
+    searchWeather(chosenCity);
+    console.log("click is working");
+    console.log($(this).text());
+});
 
 
-    
-//  chosen city to history storage variable
+function displayCityHistory(){
+     cityHistory = JSON.parse(localStorage.getItem('cityHistory')) || [];
+     // emtpy History Div 
+     historyDiv.empty();
+     // Display Search History from Local Storage
+     for (let i=0; i < cityHistory.length; i++){
+         historyDiv.append(`<button type="button" class="btn btn-secondary btn-sm" id="${cityHistory[i]}-button"> ${cityHistory[i]} </button>`) 
+     }
+}
+
+
+// search function 
+function searchWeather(chosenCity){
+      // Store chosen city in the search history
     cityHistory.push(chosenCity);
-
-// store updated city history in local storage 
     localStorage.setItem('cityHistory', JSON.stringify(cityHistory));
+  
+    // call display city history function 
+
+    displayCityHistory();
 
     let queryURL ="https://api.openweathermap.org/data/2.5/forecast?q=" + chosenCity + "&units=&appid=fa4695e0608a76d517ec72dbb80b9028";
-    console.log(queryURL);
 
     // documentation https://openweathermap.org/forecast5 
 
@@ -56,29 +89,10 @@ $('#search-button').on('click', function(event){
 // //          - icon
         console.log(data);
 
-        // selectors of the history div, forecast div & main div
-        let todayDiv = $('#today-div'); 
-        let historyDiv = $('#history');
-        let forecastCards = $('#forecast-cards'); 
-
         // empties main card & forecast cards 
 
         todayDiv.empty();
         forecastCards.empty();
-
-
-        // retrieve city history from Local Storage 
-
-        cityHistory = JSON.parse(localStorage.getItem('cityHistory')) || [];
-
-        // emtpy History Div 
-
-        historyDiv.empty();
-
-        // Display Search History from Local Storage
-        for (let i=0; i < cityHistory.length; i++){
-            historyDiv.append(`<li class="list-group-item"><button type="button" class="btn btn-secondary" id="${cityHistory[i]}-button"> ${cityHistory[i]} </button></li>`) 
-        }
 
         // Date 
         // get timestamp in Unix, which is no of seconds since 1970
@@ -142,34 +156,7 @@ $('#search-button').on('click', function(event){
                 </div>
             </div>
         `);
-
-
         }
 
-        //
-
-
-        
-
-    }) 
-
-})
-
-
-// get the user input value 
-
-// Build the API query based on the user input value 
-// Call the API and render the result in the HTML 
-//          - date 
-//          - temperature
-//          - wind speed
-//          - humidity
-//          - icon 
-//  - render those values to the main card 
-//  - loop through all weathers array and get the following value s
-//      - date
-//      - temperature 
-//      - wind speed
-//      - humidity 
-//      - icon 
-// - render those values to the smaller card
+    })
+}
